@@ -2,6 +2,8 @@ import React, { Children, useState } from "react";
 import TaskContext from "./taskContext";
 
 const ContextProvider = ({ children }) => {
+    const [User, setUser] = useState(null)
+
     const [data, setData] = useState([
         {
             _id: "60c72b2f9b1d8a001cf9d8a6",
@@ -46,7 +48,7 @@ const ContextProvider = ({ children }) => {
      ])
   const BASE_URL = "http://localhost:5000"; //replace with actual deploy url
   return (
-    <TaskContext.Provider value={{ BASE_URL, data }}>{children}</TaskContext.Provider>
+    <TaskContext.Provider value={{ BASE_URL, data, User, setUser }}>{children}</TaskContext.Provider>
   );
 };
 
