@@ -1,17 +1,29 @@
-import React, { useContext, useState } from "react";
-import "./AddTask.css";
+import React, { useContext, useEffect, useState } from "react";
 import TaskContext from "../../context/taskContext";
+import { useParams } from "react-router-dom";
 
-const AddTask = () => {
-  const { AddTask } = useContext(TaskContext);
+const UpdateTask = () => {
+  const { updateTask, tasks } = useContext(TaskContext);
+  const { id } = useParams();
   const [task, setTask] = useState({
     title: "",
     description: "",
     dueDate: "",
     status: false,
   });
-
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const newTask = tasks.find((task) => task._id === id);
+    if (newTask) {
+      setTask({
+        title: newTask.title,
+        description: newTask.description,
+        dueDate: newTask.dueDate,
+        status: newTask.status,
+      });
+    }
+  }, [tasks, id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,23 +36,17 @@ const AddTask = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await AddTask(task);
+    const result = await updateTask(id, task);
     if (result) {
-      setMessage("Task added successfully!");
-      setTask({
-        title: "",
-        description: "",
-        dueDate: "",
-        status: false,
-      });
+      setMessage("Task updated successfully!");
     } else {
-      setMessage("Error adding task.");
+      setMessage("Error updating task.");
     }
   };
 
   return (
     <div className="main-form-container">
-      <h1>Add New Task</h1>
+      <h1>Update Task</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">
           <h4>Title:</h4>
@@ -84,4 +90,4 @@ const AddTask = () => {
   );
 };
 
-export default AddTask;
+export default UpdateTask;

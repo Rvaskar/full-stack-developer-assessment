@@ -79,6 +79,7 @@ const ContextProvider = ({ children }) => {
   };
 
   const AddTask = async (data) => {
+    const User = JSON.parse(localStorage.getItem("Profile"));
     if (User) {
       try {
         const response = await axios.post(`${BASE_URL}/task/add`, data, {
@@ -95,10 +96,37 @@ const ContextProvider = ({ children }) => {
     }
     return false;
   };
+
+  const updateTask = async (id, data) => {
+    const User = JSON.parse(localStorage.getItem("Profile"));
+    if (User) {
+      try {
+        const response = await axios.put(`${BASE_URL}/task/edit/${id}`, data, {
+          headers: {
+            authorization: `Bearer ${User?.token}`,
+          },
+        });
+        if (response.status === 200) {
+          setTasks((prevTasks) =>
+            prevTasks.map((task) => (task._id === id ? { ...task, ...data } : task))
+          );
+          return true;
+        } else {
+          console.error("Failed to update task:", response.statusText);
+          return false;
+        }
+      } catch (error) {
+        console.error("Error occurred in updating task:", error);
+        return false;
+      }
+    }
+    return false;
+  };
+  
     
 
   return (
-    <TaskContext.Provider value={{ BASE_URL, tasks, User, setUser, AddTask, deleteTask}}>
+    <TaskContext.Provider value={{ BASE_URL, tasks, User, setUser, AddTask, updateTask, deleteTask}}>
       {children}
     </TaskContext.Provider>
   );

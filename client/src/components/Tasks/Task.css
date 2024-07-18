@@ -56,6 +56,7 @@
 .btn-edit{
     background-color: blue;
     color: white;
+    text-decoration: none;
 }
 .btn-delete{
     background-color: red;

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import "./Task.css";
 import { format } from 'date-fns';
 import TaskContext from "../../context/taskContext";
+import { Link } from "react-router-dom";
 
 const Task = ({ task }) => {
   const {deleteTask} = useContext(TaskContext)
@@ -22,7 +23,7 @@ const Task = ({ task }) => {
       <p className="task-p-1">{task.description}</p>
       <p className="task-p-2">due Date: {formattedDate}</p>
       <div className="task-btn">
-        <button className="btn btn-edit">Edit</button>
+        <Link to={`/edit/${task._id}`} className="btn btn-edit">Edit</Link>
         <button onClick={() => deleteTask(task._id)}  className="btn btn-delete">Delete</button>
       </div>
     </div>
