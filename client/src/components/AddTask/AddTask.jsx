@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
+import './AddTask.css'
 
 const AddTask = () => {
     const [task, setTask] = useState({
@@ -41,7 +42,8 @@ const AddTask = () => {
 
   
   return (
-    <div>
+    <div className="main-form-container">
+      <h1>Add New Task</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">
           <h4>Title:</h4>
@@ -79,7 +81,7 @@ const AddTask = () => {
           />
         </label>
         
-        <button type="submit">Submit</button>
+        <button className="add-task-btn" type="submit">Submit</button>
       </form>
       
       {message && <p>{message}</p>}

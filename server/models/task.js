@@ -9,11 +9,10 @@ const taskSchema = new mongoose.Schema({
   description: {
     type: String,
     trim: true,
-
   },
-  isCompleted: {
+  status: {
     type: Boolean,
-    default: false, // Set to false when the task is created
+    default: false,
   },
   dueDate: {
     type: Date,
@@ -21,11 +20,10 @@ const taskSchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to the User model
-    required: true,
+    ref: 'User',
   },
 }, {
-  timestamps: true, // Automatically add createdAt and updatedAt timestamps
+  timestamps: true,
 });
 
 export default mongoose.model("Task", taskSchema);
