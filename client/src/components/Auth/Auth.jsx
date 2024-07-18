@@ -27,7 +27,7 @@ const Auth = () => {
     }
 
     const user = { email, password };
-    console.log(user)
+   
     if (isSignup) {
       if (!name) {
         alert('Please enter name to continue');
@@ -45,6 +45,7 @@ const Auth = () => {
         .catch((error) => {
           console.error("There was an error!", error);
         });
+        
     } else {
       axios.post(`${BASE_URL}/user/login`, user)
         .then((response) => {

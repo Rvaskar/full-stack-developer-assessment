@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const DisplayTask = () => {
   const { tasks } = useContext(TaskContext);
-  console.log(tasks);
+  console.log(tasks.length)
 
   return (
     <main className="main-task-container">

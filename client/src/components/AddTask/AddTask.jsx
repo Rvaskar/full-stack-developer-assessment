@@ -1,16 +1,17 @@
-import React, { useState } from "react";
-import axios from 'axios';
-import './AddTask.css'
+import React, { useContext, useState } from "react";
+import './AddTask.css';
+import TaskContext from "../../context/taskContext";
 
 const AddTask = () => {
-    const [task, setTask] = useState({
-        title: "",
-        description: "",
-        dueDate: "",
-        status: false,
-      });
+  const [task, setTask] = useState({
+    title: "",
+    description: "",
+    dueDate: "",
+    status: false,
+  });
 
   const [message, setMessage] = useState("");
+  const { AddTask } = useContext(TaskContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,24 +24,20 @@ const AddTask = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post('YOUR_API_URL_HERE', task); // Replace with your actual URL
-
+    const result = await AddTask(task);
+    if (result) {
       setMessage("Task added successfully!");
-
       setTask({
         title: "",
         description: "",
         dueDate: "",
+        status: false,
       });
-
-    } catch (error) {
-      setMessage("Error. Please try again.");
-      console.error("There was an error!", error);
+    } else {
+      setMessage("Error adding task.");
     }
   };
 
-  
   return (
     <div className="main-form-container">
       <h1>Add New Task</h1>
@@ -56,7 +53,6 @@ const AddTask = () => {
             required
           />
         </label>
-        
         <label htmlFor="description">
           <h4>Description:</h4>
           <input
@@ -68,7 +64,6 @@ const AddTask = () => {
             required
           />
         </label>
-        
         <label htmlFor="dueDate">
           <h4>Due Date:</h4>
           <input
@@ -80,10 +75,8 @@ const AddTask = () => {
             required
           />
         </label>
-        
         <button className="add-task-btn" type="submit">Submit</button>
       </form>
-      
       {message && <p>{message}</p>}
     </div>
   );

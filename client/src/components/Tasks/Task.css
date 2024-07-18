@@ -40,6 +40,7 @@
     display: flex;
     gap: 1rem;
     padding: 5px 10px;
+    
 }
 .task-p-1, .task-p-2{
     margin: 0;
@@ -50,6 +51,7 @@
     font-weight: 600;
     border-radius: 5px;
     border: none;
+    cursor: pointer;
 }
 .btn-edit{
     background-color: blue;
@@ -57,6 +59,10 @@
 }
 .btn-delete{
     background-color: red;
+    color: white;
+}
+.btn-delete:active{
+    background-color: rgb(255, 54, 54);
     color: white;
 }
 .btn-add-task{

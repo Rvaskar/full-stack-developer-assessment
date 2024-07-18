@@ -1,54 +1,106 @@
-import React, { Children, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TaskContext from "./taskContext";
+import axios from 'axios';
 
 const ContextProvider = ({ children }) => {
-    const [User, setUser] = useState(null)
+  const [User, setUser] = useState(null);
+  const [tasks, setTasks] = useState([]);
+  const BASE_URL = "http://localhost:5000";
 
-    const [tasks, setTasks] = useState([
-        {
-            _id: "60c72b2f9b1d8a001cf9d8a6",
-            title: "Complete Project Report",
-            description: "Finish the final report for the project and submit it.",
-            dueDate: "2024-07-20",
-            status: true,
-            userId: "60c72b2f9b1d8a001cf9d8a1" // Sample MongoDB ID
+  useEffect(() => {
+    const fetchUser = () => {
+      const result = JSON.parse(localStorage.getItem("Profile"));
+      if (result) {
+        const { token } = result;
+
+        // Decode token to get its expiry time
+        const decodedToken = JSON.parse(atob(token.split('.')[1]));
+
+        // Check if token is expired
+        if (decodedToken.exp * 1000 < new Date().getTime()) {
+          // Token is expired, remove it from local storage and set user to null
+          localStorage.removeItem("Profile");
+          setUser(null);
+        } else {
+          // Token is valid, set user
+          setUser(result);
+        }
+      }
+    };
+
+   
+
+    fetchUser();
+  
+  }, [BASE_URL]);
+
+  useEffect(() => {
+
+    const fetchTasks = async () => {
+      const result = JSON.parse(localStorage.getItem("Profile"));
+      if (result) {
+        try {
+          const response = await axios.get(`${BASE_URL}/task/get`, {
+            headers: {
+              authorization: `Bearer ${result?.token}`,
+            },
+          });
+          setTasks(response.data);
+        } catch (error) {
+          console.error("Error fetching tasks:", error);
+        }
+      }
+    };
+
+    
+    fetchTasks();
+  }, [BASE_URL,User]);
+
+  const deleteTask = async (id) => {
+   
+    const result = JSON.parse(localStorage.getItem("Profile"));
+    if (result) {
+      try {
+        const response = await axios.delete(`${BASE_URL}/task/delete/${id}`, {
+          headers: {
+            authorization: `Bearer ${result?.token}`,
           },
-          {
-            _id: "60c72b2f9b1d8a001cf9d8a7",
-            title: "Update Website",
-            description: "Implement the new design changes in the company website.",
-            dueDate: "2024-07-18",
-            status: false,
-            userId: "60c72b2f9b1d8a001cf9d8a2" // Sample MongoDB ID
+        });
+        if (response.status === 200) {
+          const newTask = tasks.filter((task) => task._id !== id);
+          setTasks(newTask);
+        } else {
+          console.error("Failed to delete task:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error Deleting Task :", error);
+      }
+    }
+  };
+
+  const AddTask = async (data) => {
+    if (User) {
+      try {
+        const response = await axios.post(`${BASE_URL}/task/add`, data, {
+          headers: {
+            authorization: `Bearer ${User?.token}`,
           },
-          {
-            _id: "60c72b2f9b1d8a001cf9d8a8",
-            title: "Team Meeting",
-            description: "Conduct a team meeting to discuss the project milestones.",
-            dueDate: "2024-07-17",
-            status: true,
-            userId: "60c72b2f9b1d8a001cf9d8a3" // Sample MongoDB ID
-          },
-          {
-            _id: "60c72b2f9b1d8a001cf9d8a9",
-            title: "Code Review",
-            description: "Review the code submitted by the development team.",
-            dueDate: "2024-07-21",
-            status: false,
-            userId: "60c72b2f9b1d8a001cf9d8a4" // Sample MongoDB ID
-          },
-          {
-            _id: "60c72b2f9b1d8a001cf9d8b0",
-            title: "Client Feedback",
-            description: "Gather feedback from the client on the latest deliverable.",
-            dueDate: "2024-07-19",
-            status: false,
-            userId: "60c72b2f9b1d8a001cf9d8a5" // Sample MongoDB ID
-          }
-     ])
-  const BASE_URL = "http://localhost:5000"; //replace with actual deploy url
+        });
+        setTasks((prevTasks) => [...prevTasks, response.data]);
+        return true;
+      } catch (error) {
+        console.error("Error Adding task:", error);
+        return false;
+      }
+    }
+    return false;
+  };
+    
+
   return (
-    <TaskContext.Provider value={{ BASE_URL, tasks, User, setUser }}>{children}</TaskContext.Provider>
+    <TaskContext.Provider value={{ BASE_URL, tasks, User, setUser, AddTask, deleteTask}}>
+      {children}
+    </TaskContext.Provider>
   );
 };
 
