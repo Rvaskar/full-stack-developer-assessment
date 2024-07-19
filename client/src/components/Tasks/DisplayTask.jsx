@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 const DisplayTask = () => {
   const { tasks } = useContext(TaskContext);
 
+  
   return (
     <main className="main-task-container">
       <h1>Task Manager</h1>

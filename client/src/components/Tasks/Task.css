@@ -66,6 +66,22 @@
     background-color: rgb(255, 54, 54);
     color: white;
 }
+.btn-change-f{
+    background-color: #28a745;
+    color: white;
+}
+.btn-change-f:active{
+    background-color: #21c046;
+    color: white;
+}
+.btn-change-t{
+    background-color: #ffc107;
+    color: white;
+}
+.btn-change-t:active{
+    background-color: #f3bf22;
+    color: white;
+}
 .btn-add-task{
     background-color: blue;
     color: white;

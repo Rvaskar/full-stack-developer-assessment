@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TaskContext from "./taskContext";
-import axios from 'axios';
+import axios from "axios";
 
 const ContextProvider = ({ children }) => {
   const [User, setUser] = useState(null);
@@ -14,7 +14,7 @@ const ContextProvider = ({ children }) => {
         const { token } = result;
 
         // Decode token to get its expiry time
-        const decodedToken = JSON.parse(atob(token.split('.')[1]));
+        const decodedToken = JSON.parse(atob(token.split(".")[1]));
 
         // Check if token is expired
         if (decodedToken.exp * 1000 < new Date().getTime()) {
@@ -28,14 +28,10 @@ const ContextProvider = ({ children }) => {
       }
     };
 
-   
-
     fetchUser();
-  
   }, [BASE_URL]);
 
   useEffect(() => {
-
     const fetchTasks = async () => {
       const result = JSON.parse(localStorage.getItem("Profile"));
       if (result) {
@@ -52,12 +48,10 @@ const ContextProvider = ({ children }) => {
       }
     };
 
-    
     fetchTasks();
-  }, [BASE_URL,User]);
+  }, [BASE_URL, User]);
 
   const deleteTask = async (id) => {
-   
     const result = JSON.parse(localStorage.getItem("Profile"));
     if (result) {
       try {
@@ -108,7 +102,9 @@ const ContextProvider = ({ children }) => {
         });
         if (response.status === 200) {
           setTasks((prevTasks) =>
-            prevTasks.map((task) => (task._id === id ? { ...task, ...data } : task))
+            prevTasks.map((task) =>
+              task._id === id ? { ...task, ...data } : task
+            )
           );
           return true;
         } else {
@@ -122,11 +118,52 @@ const ContextProvider = ({ children }) => {
     }
     return false;
   };
-  
-    
+
+  const updateTaskStatus = async (id, data) => {
+    const User = JSON.parse(localStorage.getItem("Profile"));
+    if (User) {
+      try {
+        const response = await axios.put(
+          `${BASE_URL}/task/status/${id}`,
+          data,
+          {
+            headers: {
+              authorization: `Bearer ${User?.token}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+              task._id === id ? { ...task, ...data } : task
+            )
+          );
+          return true;
+        } else {
+          console.error("Failed to update task Status:", response.statusText);
+          return false;
+        }
+      } catch (error) {
+        console.error("Error occurred in updating task:", error);
+        return false;
+      }
+    }
+    return false;
+  };
 
   return (
-    <TaskContext.Provider value={{ BASE_URL, tasks, User, setUser, AddTask, updateTask, deleteTask}}>
+    <TaskContext.Provider
+      value={{
+        BASE_URL,
+        tasks,
+        User,
+        setUser,
+        AddTask,
+        updateTask,
+        deleteTask,
+        updateTaskStatus,
+      }}
+    >
       {children}
     </TaskContext.Provider>
   );

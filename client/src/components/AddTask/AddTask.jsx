@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import "./AddTask.css";
 import TaskContext from "../../context/taskContext";
+import { useNavigate } from "react-router-dom";
 
 const AddTask = () => {
   const { AddTask } = useContext(TaskContext);
@@ -12,6 +13,7 @@ const AddTask = () => {
   });
 
   const [message, setMessage] = useState("");
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,12 +29,14 @@ const AddTask = () => {
     const result = await AddTask(task);
     if (result) {
       setMessage("Task added successfully!");
+      navigate('/')
       setTask({
         title: "",
         description: "",
         dueDate: "",
         status: false,
       });
+
     } else {
       setMessage("Error adding task.");
     }

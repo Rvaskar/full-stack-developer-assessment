@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import TaskContext from "../../context/taskContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateTask = () => {
   const { updateTask, tasks } = useContext(TaskContext);
@@ -13,13 +13,15 @@ const UpdateTask = () => {
   });
   const [message, setMessage] = useState("");
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     const newTask = tasks.find((task) => task._id === id);
     if (newTask) {
       setTask({
         title: newTask.title,
         description: newTask.description,
-        dueDate: newTask.dueDate,
+        dueDate: new Date(newTask.dueDate).toISOString().split('T')[0], 
         status: newTask.status,
       });
     }
@@ -39,6 +41,8 @@ const UpdateTask = () => {
     const result = await updateTask(id, task);
     if (result) {
       setMessage("Task updated successfully!");
+      navigate('/')
+
     } else {
       setMessage("Error updating task.");
     }

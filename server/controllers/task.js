@@ -71,3 +71,27 @@ export const updateTask = async (req, res) => {
     res.status(405).json({ message: error.message });
   }
 };
+
+export const updateStatus = async (req, res) => {
+  const { id: _id } = req.params;
+  const { status } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    return res.status(404).send("Task unavailable....");
+  }
+
+  try {
+    const UpdatedStatus = await Task.findByIdAndUpdate(
+      _id,
+      {
+        $set: {
+          status: status,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(UpdatedStatus);
+  } catch (error) {
+    res.status(405).json({ message: error.message });
+  }
+};
