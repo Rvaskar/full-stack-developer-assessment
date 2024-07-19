@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, {useEffect} from 'react'
 import '../App.css'
 import DisplayTask from './Tasks/DisplayTask'
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ const Home = () => {
     if(!localStorage.getItem('Profile')){
       navigate("/Auth")
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className='main-container'>
