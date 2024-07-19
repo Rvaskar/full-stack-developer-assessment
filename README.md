@@ -1,70 +1,84 @@
-# Getting Started with Create React App
+# Task Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository contains a full-stack task management system with a React front-end and a Node.js back-end.
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+### Prerequisites
 
-### `npm start`
+Make sure you have the following installed on your machine:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Node.js
+- npm or yarn
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Cloning the Repository
 
-### `npm test`
+To clone the repository, run the following command:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+````bash
+git clone git@github.com:Rvaskar/full-stack-developer-assessment.git
 
-### `npm run build`
+# Project Setup Instructions
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Setting Up the Project
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 1. Install Dependencies
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Navigate to the project directory and install the dependencies for both the client and server.
 
-### `npm run eject`
+#### Client (React)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Navigate to the client directory:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+cd client
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+````
+### Set Up Environment Variables:
+Create a `.env` file in the `server` directory and add the following environment variables:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+CONNECTION_URL=mongodb://your_mongodb_url
+JWT_SECRET=your_jwt_secret
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Running the Project:
+## Client (React):
+To start the React development server, navigate to the `client` directory and run:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+npm start
+# or
+yarn start
 
-### Code Splitting
+## Server (Node.js):
+To start the Node.js server with `nodemon`, navigate to the `server` directory and run:
+nodemon index.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Project Structure:
+`client`: Contains the React front-end.
+`server`: Contains the Node.js back-end.
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Install the dependencies:
+npm install
+# or
+yarn install
 
-### Making a Progressive Web App
+### Install the dependencies:
+## Client (React):
+`axios`: ^1.7.2
+`date-fns`: ^3.6.0
+`react`: ^18.3.1
+`react-dom`: ^18.3.1
+`react-router-dom`: ^6.25.0
+`react-scripts`: 5.0.1
+`web-vitals`: ^2.1.4
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Server (Node.js):
+`bcryptjs`: ^2.4.3
+`cors`: ^2.8.5
+`dotenv`: ^16.4.5
+`express`: ^4.19.2
+`jsonwebtoken`: ^9.0.2
+`mongodb`: ^6.8.0
+`mongoose`: ^8.5.1
+`nodemon`: ^3.1.4 (devDependency)
